@@ -1,0 +1,22 @@
+{
+    "name": "furthered/assets",
+    "description": "Assets helper",
+    "authors": [
+        {
+            "name": "Joe Tannenbaum",
+            "role": "Author"
+        }
+    ],
+    "require": {
+        "illuminate/support": "~4.2",
+        "league/glide": "0.3.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Assets\\": "src/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.4"
+    }
+}
