@@ -4,13 +4,14 @@ namespace Assets\AssetType;
 
 class CSS extends AssetType {
 
-    protected $lib = [
-        'datepicker' => '/bower_components/ngQuickDate/dist/ng-quick-date.css',
-    ];
+    protected function addLib()
+    {
+        $this->lib = \Config::get('assets.css.lib', []);
+    }
 
     protected function addDefaults()
     {
-        $this->add(['/']);
+        $this->add(\Config::get('assets.css.defaults', []));
     }
 
     protected function getDir()

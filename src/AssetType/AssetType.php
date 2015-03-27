@@ -14,6 +14,7 @@ abstract class AssetType {
     {
         $this->reset();
 
+        $this->addLib();
         $this->addDefaults();
     }
 
