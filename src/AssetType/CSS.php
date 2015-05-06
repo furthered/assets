@@ -31,7 +31,7 @@ class CSS extends AssetType {
 
     protected function getMainFile()
     {
-        return 'style' . $this->getExtension();
+        return 'main' . $this->getExtension();
     }
 
 }
