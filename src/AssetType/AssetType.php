@@ -56,6 +56,11 @@ abstract class AssetType {
                 $path = $this->lib[$path];
             }
 
+            if (starts_with($path, ['http://', 'https://'])) {
+                $output[] = $this->wrapInTag($path);
+                continue;
+            }
+
             if (!ends_with($path, $this->getExtension())) {
                 $path = $this->getDynamicPath($path);
             }
