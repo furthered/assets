@@ -10,7 +10,7 @@ abstract class AssetType {
 
     protected $lib = [];
 
-    protected $revisions;
+    protected $revisions = [];
 
     public function __construct()
     {
