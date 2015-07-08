@@ -10,12 +10,14 @@ abstract class AssetType {
 
     protected $lib = [];
 
+    protected $revisions;
+
     public function __construct()
     {
         $this->reset();
-
         $this->addLib();
         $this->addDefaults();
+        $this->loadRevisions();
     }
 
     abstract protected function getDir();
@@ -28,6 +30,15 @@ abstract class AssetType {
 
     protected function addDefaults() {}
 
+    protected function loadRevisions()
+    {
+        $revisions_path = public_path('build/rev-manifest.json');
+
+        if (file_exists($revisions_path)) {
+            $this->revisions = json_decode(file_get_contents($revisions_path), true);
+        }
+    }
+
     public function reset()
     {
         $this->paths = new Collection();
@@ -35,7 +46,7 @@ abstract class AssetType {
 
     public function add($paths)
     {
-        $this->paths = $this->paths->merge($this->toArray($paths));
+        $this->paths = $this->paths->merge($this->toArray($paths))->unique();
 
         return $this;
     }
@@ -49,26 +60,41 @@ abstract class AssetType {
 
     public function output()
     {
-        $output = [];
-
-        foreach ($this->paths as $path) {
-            if ($this->isLib($path)) {
-                $path = $this->lib[$path];
-            }
-
-            if (starts_with($path, ['http://', 'https://'])) {
-                $output[] = $this->wrapInTag($path);
-                continue;
-            }
-
-            if (!ends_with($path, $this->getExtension())) {
-                $path = $this->getDynamicPath($path);
-            }
-
-            $output[] = $this->wrapInTag($path);
-        }
+        $output = array_map([$this, 'getOutputItem'], $this->paths->toArray());
 
         return implode("\n", $output);
+    }
+
+    protected function getOutputItem($path)
+    {
+        return $this->wrapInTag($this->getFinalPath($path));
+    }
+
+    protected function getFinalPath($path)
+    {
+        if ($this->isLib($path)) {
+            $path = $this->lib[$path];
+        }
+
+        if ($this->isFullUrl($path)) {
+            return $path;
+        }
+
+        if (!$this->hasExtension($path)) {
+            return $this->getDynamicPath($path);
+        }
+
+        return $this->getVersionedPath($path);
+    }
+
+    protected function isFullUrl($path)
+    {
+        return starts_with($path, ['http://', 'https://']);
+    }
+
+    protected function hasExtension($path)
+    {
+        return ends_with($path, $this->getExtension());
     }
 
     protected function getDynamicPath($path)
@@ -82,7 +108,20 @@ abstract class AssetType {
 
         $path[] = $this->getMainFile();
 
-        return '/' . implode('/', $path);
+        $path = implode('/', $path);
+
+        return $this->getVersionedPath($path);
+    }
+
+    protected function getVersionedPath($path)
+    {
+        $path = ltrim($path, '/');
+
+        if ($version = array_get($this->revisions, $path)) {
+            return '/build/' . $version;
+        }
+
+        return '/' . $path;
     }
 
     protected function isLib($path)
