@@ -8,15 +8,32 @@ class Image {
 
     public function dynamic($image, $params)
     {
-        $url = parse_url($image);
+        return $this->getBuilder()->getUrl($this->getPath($image), $this->getAttr($params));
+    }
 
-        $path = explode('/', trim($url['path'], '/'));
+    protected function getBuilder()
+    {
+        return UrlBuilderFactory::create($this->getBaseUrl(), 'faster-stronger');
+    }
 
-        if (head($path) == 'images') {
-            array_shift($path);
+    protected function getBaseUrl()
+    {
+        $base_url = explode('.', url());
+        $base_url = array_slice($base_url, -2, 2);
+        $base_url = implode('.', $base_url);
+
+        if (!starts_with($base_url, 'http://')) {
+            return 'http://image.' . $base_url;
         }
 
-        $path = implode('/', $path);
+        return str_replace('http://', 'http://image.', $base_url);
+    }
+
+    protected function getAttr($params)
+    {
+        if ($attr = \Config::get('image.' . $params)) {
+            return $attr;
+        }
 
         parse_str($params, $attr);
 
@@ -26,19 +43,20 @@ class Image {
             }
         }
 
-        $base_url = explode('.', url());
-        $base_url = array_slice($base_url, -2, 2);
-        $base_url = implode('.', $base_url);
+        return $attr;
+    }
 
-        if (!starts_with($base_url, 'http://')) {
-            $base_url = 'http://' . $base_url;
+    protected function getPath($full_path)
+    {
+        $path = parse_url($full_path, PHP_URL_PATH);
+        $path = trim($path, '/');
+        $path = explode('/', $path);
+
+        if (head($path) === 'images') {
+            array_shift($path);
         }
 
-        $image_url = str_replace('http://', 'http://image.', $base_url);
-
-        $url_builder = UrlBuilderFactory::create($image_url, 'faster-stronger');
-
-        return $url_builder->getUrl($path, $attr);
+        return implode('/', $path);
     }
 
 }
