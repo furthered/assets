@@ -58,9 +58,15 @@ abstract class AssetType {
         return $this;
     }
 
-    public function output()
+    public function output($items = null)
     {
-        $output = array_map([$this, 'getOutputItem'], $this->paths->toArray());
+        if ($items === null) {
+            $items = $this->paths->toArray();
+        } elseif (!is_array($items)) {
+            $items = [$items];
+        }
+
+        $output = array_map([$this, 'getOutputItem'], $items);
 
         return implode("\n", $output);
     }
