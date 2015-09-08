@@ -4,8 +4,8 @@ namespace Assets\AssetType;
 
 use League\Glide\Http\UrlBuilderFactory;
 
-class Image {
-
+class Image
+{
     public function dynamic($image, $params)
     {
         return $this->getBuilder()->getUrl($this->getPath($image), $this->getAttr($params));
@@ -58,5 +58,4 @@ class Image {
 
         return implode('/', $path);
     }
-
 }

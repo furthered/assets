@@ -4,8 +4,10 @@ namespace Assets\Facade;
 
 use Illuminate\Support\Facades\Facade;
 
-class Assets extends Facade {
-
-    protected static function getFacadeAccessor() { return 'assets'; }
-
+class Assets extends Facade
+{
+    protected static function getFacadeAccessor()
+    {
+        return 'assets';
+    }
 }

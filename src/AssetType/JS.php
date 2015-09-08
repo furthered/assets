@@ -2,8 +2,8 @@
 
 namespace Assets\AssetType;
 
-class JS extends AssetType {
-
+class JS extends AssetType
+{
     protected $angular_app;
 
     protected function addLib()
