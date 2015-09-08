@@ -4,8 +4,8 @@ namespace Assets\AssetType;
 
 use Illuminate\Support\Collection;
 
-abstract class AssetType {
-
+abstract class AssetType
+{
     protected $paths;
 
     protected $lib = [];
@@ -30,7 +30,9 @@ abstract class AssetType {
 
     abstract protected function wrapInTag($content);
 
-    protected function addDefaults() {}
+    protected function addDefaults()
+    {
+    }
 
     protected function loadRevisions()
     {
@@ -155,5 +157,4 @@ abstract class AssetType {
 
         return [$var];
     }
-
 }

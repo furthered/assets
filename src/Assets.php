@@ -6,8 +6,8 @@ use Assets\AssetType\CSS;
 use Assets\AssetType\Image;
 use Assets\AssetType\JS;
 
-class Assets {
-
+class Assets
+{
     protected $css;
 
     protected $js;
@@ -41,5 +41,4 @@ class Assets {
         $this->css->reset();
         $this->js->reset();
     }
-
 }

@@ -2,8 +2,8 @@
 
 namespace Assets\AssetType;
 
-class CSS extends AssetType {
-
+class CSS extends AssetType
+{
     protected function addLib()
     {
         $this->lib = \Config::get('assets.css.lib', []);
@@ -38,5 +38,4 @@ class CSS extends AssetType {
     {
         return 'main' . $this->getExtension();
     }
-
 }
