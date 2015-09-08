@@ -26,7 +26,9 @@ abstract class AssetType {
 
     abstract protected function getMainFile();
 
-    abstract protected function wrapInTag($path);
+    abstract protected function srcTag($path);
+
+    abstract protected function wrapInTag($content);
 
     protected function addDefaults() {}
 
@@ -58,6 +60,11 @@ abstract class AssetType {
         return $this;
     }
 
+    public function inline($content)
+    {
+        $this->paths[] = $this->wrapInTag($content);
+    }
+
     public function output($items = null)
     {
         if ($items === null) {
@@ -73,7 +80,12 @@ abstract class AssetType {
 
     protected function getOutputItem($path)
     {
-        return $this->wrapInTag($this->getFinalPath($path));
+        // If it's inline content, simply return it
+        if (starts_with($path, '<')) {
+            return $path;
+        }
+
+        return $this->srcTag($this->getFinalPath($path));
     }
 
     protected function getFinalPath($path)

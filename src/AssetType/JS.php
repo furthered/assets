@@ -33,9 +33,14 @@ class JS extends AssetType {
         return 'app' . $this->getExtension();
     }
 
-    protected function wrapInTag($path)
+    protected function srcTag($path)
     {
         return '<script type="text/javascript" src="' . $path . '"></script>';
+    }
+
+    protected function wrapInTag($content)
+    {
+        return '<script type="text/javascript">' . $content . '</script>';
     }
 
     public function setAngularApp($app)

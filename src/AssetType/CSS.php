@@ -24,9 +24,14 @@ class CSS extends AssetType {
         return '.css';
     }
 
-    protected function wrapInTag($path)
+    protected function srcTag($path)
     {
-        return '<link rel="stylesheet" href="' . $path . '">';
+        return '<link rel="stylesheet" href="' . $path . '" />';
+    }
+
+    protected function wrapInTag($content)
+    {
+        return '<style type="text/css">' . $content . '</style>';
     }
 
     protected function getMainFile()
