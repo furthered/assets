@@ -138,7 +138,7 @@ abstract class AssetType
         $path = ltrim($path, '/');
 
         if ($version = array_get($this->revisions, $path)) {
-            return '/build/' . $version;
+            return ($this->isFullUrl($version)) ? $version : '/build/' . $version;
         }
 
         return '/' . $path;
