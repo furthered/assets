@@ -2,7 +2,7 @@
 
 namespace Assets\AssetType;
 
-use League\Glide\Http\UrlBuilderFactory;
+use League\Glide\Urls\UrlBuilderFactory;
 
 class Image
 {
