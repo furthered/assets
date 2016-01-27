@@ -2,10 +2,18 @@
 
 namespace Assets\AssetType;
 
+use Illuminate\Config\Repository;
 use League\Glide\Urls\UrlBuilderFactory;
 
 class Image
 {
+    protected $config;
+
+    public function __construct(Repository $config)
+    {
+        $this->config = $config;
+    }
+
     public function dynamic($image, $params)
     {
         return $this->getBuilder()->getUrl($this->getPath($image), $this->getAttr($params));
@@ -31,7 +39,7 @@ class Image
 
     protected function getAttr($params)
     {
-        if ($attr = \Config::get('image.' . $params)) {
+        if ($attr = $this->config->get('image.' . $params)) {
             return $attr;
         }
 

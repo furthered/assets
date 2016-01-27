@@ -6,12 +6,12 @@ class CSS extends AssetType
 {
     protected function addLib()
     {
-        $this->lib = \Config::get('assets.css.lib', []);
+        $this->lib = $this->config->get('assets.css.lib', []);
     }
 
     protected function addDefaults()
     {
-        $this->add(\Config::get('assets.css.defaults', []));
+        $this->add($this->config->get('assets.css.defaults', []));
     }
 
     protected function getDir()

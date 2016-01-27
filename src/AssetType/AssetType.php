@@ -3,6 +3,7 @@
 namespace Assets\AssetType;
 
 use Illuminate\Support\Collection;
+use Illuminate\Config\Repository;
 
 abstract class AssetType
 {
@@ -12,8 +13,12 @@ abstract class AssetType
 
     protected $revisions = [];
 
-    public function __construct()
+    protected $config;
+
+    public function __construct(Repository $config)
     {
+        $this->config = $config;
+
         $this->reset();
         $this->addLib();
         $this->addDefaults();
@@ -50,14 +55,14 @@ abstract class AssetType
 
     public function add($paths)
     {
-        $this->paths = $this->paths->merge($this->toArray($paths))->unique();
+        $this->paths = $this->paths->merge($this->varToArray($paths))->unique();
 
         return $this;
     }
 
     public function remove($paths)
     {
-        $this->paths = $this->paths->diff($this->toArray($paths));
+        $this->paths = $this->paths->diff($this->varToArray($paths));
 
         return $this;
     }
@@ -149,7 +154,7 @@ abstract class AssetType
         return array_key_exists($path, $this->lib);
     }
 
-    protected function toArray($var)
+    protected function varToArray($var)
     {
         if (is_array($var)) {
             return $var;

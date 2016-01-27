@@ -8,14 +8,14 @@ class JS extends AssetType
 
     protected function addLib()
     {
-        $this->lib = \Config::get('assets.js.lib', []);
+        $this->lib = $this->config->get('assets.js.lib', []);
     }
 
     protected function addDefaults()
     {
-        $this->add(\Config::get('assets.js.defaults', []));
+        $this->add($this->config->get('assets.js.defaults', []));
 
-        $this->setAngularApp(\Config::get('assets.js.angular_app'));
+        $this->setAngularApp($this->config->get('assets.js.angular_app'));
     }
 
     protected function getDir()

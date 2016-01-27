@@ -25,7 +25,7 @@ class AssetsServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bindShared('assets', function () {
-            return new Assets(new CSS, new JS, new Image);
+            return app('Assets\Assets');
         });
     }
 
