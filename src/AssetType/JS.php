@@ -43,6 +43,17 @@ class JS extends AssetType
         return '<script type="text/javascript">' . $content . '</script>';
     }
 
+    public function setInlineVar($key, $value, $add = true)
+    {
+        $content = sprintf('var %s = %s;', $key, json_encode($value));
+
+        if ($add) {
+            return $this->inline($content);
+        }
+
+        return $this->wrapInTag($content);
+    }
+
     public function setAngularApp($app)
     {
         $this->angular_app = $app;

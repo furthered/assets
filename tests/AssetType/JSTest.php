@@ -113,4 +113,32 @@ class JSTest extends TestBase
 
         $this->assertSame(implode("\n", $result), $assets->js()->output());
     }
+
+    /** @test */
+    public function it_can_add_an_inline_var()
+    {
+        $assets = $this->getAssets();
+
+        $assets->js()->reset();
+        $assets->js()->setInlineVar('course', ['well' => 'ok here']);
+
+        $result = [
+            '<script type="text/javascript">var course = {"well":"ok here"};</script>',
+        ];
+
+        $this->assertSame(implode("\n", $result), $assets->js()->output());
+    }
+
+    /** @test */
+    public function it_can_return_an_inline_var()
+    {
+        $assets = $this->getAssets();
+
+        $assets->js()->reset();
+        $inline = $assets->js()->setInlineVar('course', ['well' => 'ok here'], false);
+
+        $expected = '<script type="text/javascript">var course = {"well":"ok here"};</script>';
+
+        $this->assertSame($inline, $expected);
+    }
 }
