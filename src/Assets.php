@@ -36,6 +36,21 @@ class Assets
         return $this->image;
     }
 
+    public function url($path)
+    {
+        if (str_contains($path, ['http://', 'https://'])) {
+            return $path;
+        }
+
+        $path = ltrim($path, '/');
+
+        if (app()->environment('vagrant')) {
+            return '/' . $path;
+        }
+
+        return rtrim(env('CDN_URL'), '/') . '/assets/ui/' . $path;
+    }
+
     public function reset()
     {
         $this->css->reset();
