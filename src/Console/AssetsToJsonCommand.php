@@ -37,9 +37,13 @@ class AssetsToJsonCommand extends Command
      */
     public function handle()
     {
-        echo json_encode([
+        $data = json_encode([
             'assets'  => \Config::get('assets'),
             'cdn_url' => rtrim(env('CDN_URL'), '/'),
         ]);
+
+        $dest = __DIR__ . '/../config/generated.json';
+
+        file_put_contents($dest, $data);
     }
 }
