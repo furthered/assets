@@ -42,7 +42,7 @@ class AssetsToJsonCommand extends Command
             'cdn_url' => rtrim(env('CDN_URL'), '/'),
         ]);
 
-        $dest = __DIR__ . '/../config/generated.json';
+        $dest = __DIR__ . '/../../config/generated.json';
 
         file_put_contents($dest, $data);
     }
