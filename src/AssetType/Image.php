@@ -30,11 +30,13 @@ class Image
         $base_url = array_slice($base_url, -2, 2);
         $base_url = implode('.', $base_url);
 
-        if (!starts_with($base_url, 'http://')) {
-            return 'http://image.' . $base_url;
+        $base_url = str_replace(['https://', 'http://'], '//', $base_url);
+
+        if (!starts_with($base_url, '//')) {
+            return '//image.' . $base_url;
         }
 
-        return str_replace('http://', 'http://image.', $base_url);
+        return str_replace('//', '//image.', $base_url);
     }
 
     protected function getAttr($params)
