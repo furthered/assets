@@ -14,6 +14,8 @@ class Assets
 
     protected $image;
 
+    protected $consumer;
+
     public function __construct(CSS $css, JS $js, Image $image)
     {
         $this->css   = $css;
@@ -36,6 +38,11 @@ class Assets
         return $this->image;
     }
 
+    public function setConsumer($consumer)
+    {
+        $this->consumer = $consumer;
+    }
+
     public function url($path)
     {
         if (str_contains($path, ['http://', 'https://'])) {
@@ -48,7 +55,7 @@ class Assets
             return '/' . $path;
         }
 
-        return rtrim(env('CDN_URL'), '/') . '/assets/ui/' . $path;
+        return sprintf('%s/assets/%s/%s', rtrim(env('CDN_URL'), '/'), $this->consumer, $path);
     }
 
     public function reset()
