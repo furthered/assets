@@ -14,9 +14,22 @@ class Image
         $this->config = $config;
     }
 
+    public function fetch($image, $type)
+    {
+        return $this->getCloudinaryFetchUrl($image, $type);
+    }
+
     public function dynamic($image, $params)
     {
         return $this->getBuilder()->getUrl($this->getPath($image), $this->getAttr($params));
+    }
+
+    protected function getCloudinaryFetchUrl($image, $type)
+    {
+        $cloudinary_url  = $this->config->get('services.cloudinary.fetch_url');
+        $image_dimension = $this->config->get('image.cloudinary.' . $type);
+
+        return $cloudinary_url . $image_dimension . '/' . $image;
     }
 
     protected function getBuilder()
