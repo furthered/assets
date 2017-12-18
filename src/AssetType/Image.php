@@ -26,7 +26,7 @@ class Image
 
     protected function getCloudinaryFetchUrl($image, $type, $custom_dimension = null)
     {
-        $cloudinary_url  = $this->config->get('services.cloudinary.fetch_url');
+        $cloudinary_url  = $this->config->get('services.cloudinary.fetch_url', '//res.cloudinary.com/furthered/image/fetch/');
         $image_dimension = $custom_dimension ?: $this->config->get('image.cloudinary.' . $type);
         $cdn_image       = env('CDN_URL') . parse_url($image, PHP_URL_PATH);
 
