@@ -24,12 +24,13 @@ class Image
         return $this->getBuilder()->getUrl($this->getPath($image), $this->getAttr($params));
     }
 
-    protected function getCloudinaryFetchUrl($image, $type)
+    protected function getCloudinaryFetchUrl($image, $type, $custom_dimension = null)
     {
         $cloudinary_url  = $this->config->get('services.cloudinary.fetch_url');
-        $image_dimension = $this->config->get('image.cloudinary.' . $type);
+        $image_dimension = $custom_dimension ?: $this->config->get('image.cloudinary.' . $type);
+        $cdn_image       = env('CDN_URL') . parse_url($image, PHP_URL_PATH);
 
-        return $cloudinary_url . $image_dimension . '/' . $image;
+        return $cloudinary_url . $image_dimension . '/' . $cdn_image;
     }
 
     protected function getBuilder()
