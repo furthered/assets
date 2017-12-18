@@ -14,7 +14,7 @@ class Image
         $this->config = $config;
     }
 
-    public function fetch($image, $type, $custom_dimension)
+    public function fetch($image, $type, $custom_dimension = null)
     {
         return $this->getCloudinaryFetchUrl($image, $type, $custom_dimension);
     }
