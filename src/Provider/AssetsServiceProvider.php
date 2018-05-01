@@ -24,7 +24,7 @@ class AssetsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bindShared('assets', function () {
+        $this->app->singleton('assets', function () {
             return app('Assets\Assets');
         });
     }
