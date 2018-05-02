@@ -37,6 +37,7 @@ class AssetsToJsonCommand extends Command
      */
     public function handle()
     {
+        \CLImate::info('CDN_URL: ' . env('CDN_URL'));
         $data = json_encode([
             'assets'  => \Config::get('assets'),
             'cdn_url' => rtrim(env('CDN_URL'), '/'),
