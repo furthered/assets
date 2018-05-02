@@ -37,7 +37,8 @@ class AssetsToJsonCommand extends Command
      */
     public function handle()
     {
-        \Log::info('eeee', $this->getCdnUrl());
+        \Log::info('config' . \Config::get('app.cdn_url'));
+        \Log::info('env' . env('CDN_URL'));
         $data = json_encode([
             'assets'  => \Config::get('assets'),
             'cdn_url' => rtrim($this->getCdnUrl(), '/'),
