@@ -15,7 +15,7 @@ class JS extends AssetType
     {
         $this->add($this->config->get('assets.js.defaults', []));
 
-        $this->setAngularApp($this->config->get('assets.js.angular_app'));
+        $this->setAngularApp($this->config->get('assets.js.angular_app'), false);
     }
 
     protected function getDir()
@@ -54,9 +54,13 @@ class JS extends AssetType
         return $this->wrapInTag($content);
     }
 
-    public function setAngularApp($app)
+    public function setAngularApp($app, $remove_default_app = true)
     {
         $this->angular_app = $app;
+
+        if ($remove_default_app) {
+            $this->remove('lawline');
+        }
     }
 
     public function getAngularApp()
