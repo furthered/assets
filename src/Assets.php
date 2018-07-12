@@ -45,6 +45,9 @@ class Assets
 
     public function url($path)
     {
+        $cloudinary_url = config('services.cloudinary.fetch_url', '//res.cloudinary.com/furthered/image/fetch/');
+        $transformation = config('image.cloudinary.general', 'g_auto,q_auto,f_auto');
+
         if (str_contains($path, ['http://', 'https://'])) {
             return $path;
         }
@@ -55,7 +58,13 @@ class Assets
             return '/' . $path;
         }
 
-        return sprintf('%s/assets/%s/%s', rtrim(env('CDN_URL'), '/'), $this->consumer, $path);
+        return sprintf(
+            '%s/%s/assets/%s/%s',
+            $cloudinary_url . $transformation . '/',
+            rtrim(env('CDN_URL'), '/'),
+            $this->consumer,
+            $path
+        );
     }
 
     public function reset()
