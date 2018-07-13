@@ -38,8 +38,10 @@ class AssetsToJsonCommand extends Command
     public function handle()
     {
         $data = json_encode([
-            'assets'  => \Config::get('assets'),
-            'cdn_url' => rtrim(env('CDN_URL'), '/'),
+            'assets'         => config('assets'),
+            'cdn_url'        => rtrim(env('CDN_URL'), '/'),
+            'cloudinary_url' => config('services.cloudinary.fetch_url'),
+            'transformation' => config('image.cloudinary.general'),
         ]);
 
         $dest = __DIR__ . '/../../config/generated.json';
