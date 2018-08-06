@@ -39,7 +39,7 @@ class AssetsToJsonCommand extends Command
     {
         $data = json_encode([
             'assets'         => config('assets'),
-            'cdn_url'        => rtrim(env('CDN_URL'), '/'),
+            'cdn_url'        => rtrim(\Config::get('services.cdn.url'), '/'),
             'cloudinary_url' => config('services.cloudinary.fetch_url'),
             'transformation' => config('image.cloudinary.general'),
         ]);
