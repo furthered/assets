@@ -61,7 +61,7 @@ class Assets
         return sprintf(
             '%s/%s/assets/%s/%s',
             $cloudinary_url . $transformation . '/',
-            rtrim(env('CDN_URL'), '/'),
+            rtrim(\Config::get('services.cdn.url'), '/'),
             $this->consumer,
             $path
         );
