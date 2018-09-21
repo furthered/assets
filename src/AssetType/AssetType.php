@@ -2,8 +2,8 @@
 
 namespace Assets\AssetType;
 
-use Illuminate\Support\Collection;
 use Illuminate\Config\Repository;
+use Illuminate\Support\Collection;
 
 abstract class AssetType
 {
@@ -127,7 +127,7 @@ abstract class AssetType
         $path = explode('/', $path);
         $path = array_filter($path);
 
-        if (reset($path) != $this->getDir()) {
+        if (reset($path) != $this->getDir() && !$this->isVueApp($path)) {
             array_unshift($path, $this->getDir());
         }
 
@@ -161,5 +161,10 @@ abstract class AssetType
         }
 
         return [$var];
+    }
+
+    protected function isVueApp($path)
+    {
+        return in_array('Vue', $path);
     }
 }
