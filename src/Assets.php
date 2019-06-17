@@ -43,10 +43,10 @@ class Assets
         $this->consumer = $consumer;
     }
 
-    public function url($path)
+    public function url($path, $type = 'general')
     {
         $cloudinary_url = config('services.cloudinary.fetch_url', '//res.cloudinary.com/furthered/image/fetch/');
-        $transformation = config('image.cloudinary.general', 'g_auto,q_auto,f_auto');
+        $transformation = config('image.cloudinary.' . $type, 'g_auto,q_auto,f_auto');
 
         if (str_contains($path, ['http://', 'https://'])) {
             return $path;
