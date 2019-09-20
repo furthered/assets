@@ -2,8 +2,9 @@
 
 namespace Assets\AssetType;
 
-use Illuminate\Support\Collection;
 use Illuminate\Config\Repository;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
 abstract class AssetType
 {
@@ -142,7 +143,7 @@ abstract class AssetType
     {
         $path = ltrim($path, '/');
 
-        if ($version = array_get($this->revisions, $path)) {
+        if ($version = Arr::get($this->revisions, $path)) {
             return ($this->isFullUrl($version)) ? $version : '/build/' . $version;
         }
 
