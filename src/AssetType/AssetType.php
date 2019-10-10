@@ -5,6 +5,7 @@ namespace Assets\AssetType;
 use Illuminate\Config\Repository;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 abstract class AssetType
 {
@@ -89,7 +90,7 @@ abstract class AssetType
     protected function getOutputItem($path)
     {
         // If it's inline content, simply return it
-        if (starts_with($path, '<')) {
+        if (Str::startsWith($path, '<')) {
             return $path;
         }
 
@@ -115,12 +116,12 @@ abstract class AssetType
 
     protected function isFullUrl($path)
     {
-        return starts_with($path, ['http://', 'https://']);
+        return Str::startsWith($path, ['http://', 'https://']);
     }
 
     protected function hasExtension($path)
     {
-        return ends_with($path, $this->getExtension());
+        return Str::endsWith($path, $this->getExtension());
     }
 
     protected function getDynamicPath($path)
