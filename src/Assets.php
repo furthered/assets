@@ -68,6 +68,25 @@ class Assets
         );
     }
 
+    public function cdnUrl($path)
+    {
+        if (Str::contains($path, ['http://', 'https://'])) {
+            return $path;
+        }
+
+        $path = ltrim($path, '/');
+
+        if (app()->environment('vagrant')) {
+            return '/' . $path;
+        }
+
+        return sprintf('%s/assets/%s/%s',
+            rtrim(config('services.cdn.url'), '/'),
+            $this->consumer,
+            $path
+        );
+    }
+
     public function reset()
     {
         $this->css->reset();
