@@ -3,6 +3,7 @@
 namespace Assets\AssetType;
 
 use Illuminate\Config\Repository;
+use Illuminate\Support\Str;
 use League\Glide\Urls\UrlBuilderFactory;
 
 class Image
@@ -16,6 +17,10 @@ class Image
 
     public function fetch($image, $type, $custom_dimension = null)
     {
+        if ($this->isExternalUrl($image)) {
+            return $image;
+        }
+
         return $this->getCloudinaryFetchUrl($image, $type, $custom_dimension);
     }
 
@@ -81,5 +86,11 @@ class Image
         }
 
         return implode('/', $path);
+    }
+
+    protected function isExternalUrl($image)
+    {
+        return Str::contains($image, ['http://', 'https://']) &&
+            !Str::contains($image, [ 'austin.test','sixmilliondollarsite.com', 'furthered.com', 'lawline.com' ]);
     }
 }
