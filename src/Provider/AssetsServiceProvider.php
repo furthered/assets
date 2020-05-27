@@ -3,17 +3,11 @@
 namespace Assets\Provider;
 
 use Assets\Assets;
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 
-class AssetsServiceProvider extends ServiceProvider
+class AssetsServiceProvider extends ServiceProvider implements DeferrableProvider
 {
-    /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = false;
-
     /**
      * Register the service provider.
      *
