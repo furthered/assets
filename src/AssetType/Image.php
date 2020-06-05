@@ -4,7 +4,6 @@ namespace Assets\AssetType;
 
 use Illuminate\Config\Repository;
 use Illuminate\Support\Str;
-use League\Glide\Urls\UrlBuilderFactory;
 
 class Image
 {
@@ -24,11 +23,6 @@ class Image
         return $this->getCloudinaryFetchUrl($image, $type, $custom_dimension);
     }
 
-    public function dynamic($image, $params)
-    {
-        return $this->getBuilder()->getUrl($this->getPath($image), $this->getAttr($params));
-    }
-
     protected function getCloudinaryFetchUrl($image, $type, $custom_dimension = null)
     {
         $cloudinary_url  = $this->config->get('services.cloudinary.fetch_url', '//res.cloudinary.com/furthered/image/fetch/');
@@ -36,11 +30,6 @@ class Image
         $cdn_image       = config('services.cdn.url') . '/' . trim(parse_url($image, PHP_URL_PATH), '/');
 
         return $cloudinary_url . $image_dimension . '/' . $cdn_image;
-    }
-
-    protected function getBuilder()
-    {
-        return UrlBuilderFactory::create($this->getBaseUrl(), 'faster-stronger');
     }
 
     protected function getBaseUrl()
@@ -56,36 +45,6 @@ class Image
         }
 
         return str_replace('//', '//image.', $base_url);
-    }
-
-    protected function getAttr($params)
-    {
-        if ($attr = $this->config->get('image.' . $params)) {
-            return $attr;
-        }
-
-        parse_str($params, $attr);
-
-        foreach ($attr as $key => $value) {
-            if (is_numeric($value)) {
-                $attr[$key] = (int) $value;
-            }
-        }
-
-        return $attr;
-    }
-
-    protected function getPath($full_path)
-    {
-        $path = parse_url($full_path, PHP_URL_PATH);
-        $path = trim($path, '/');
-        $path = explode('/', $path);
-
-        if (head($path) === 'images') {
-            array_shift($path);
-        }
-
-        return implode('/', $path);
     }
 
     protected function isExternalUrl($image)
