@@ -55,7 +55,7 @@ class Assets
 
         $path = ltrim($path, '/');
 
-        if (app()->environment('vagrant')) {
+        if (app()->environment('docker')) {
             return '/' . $path;
         }
 
@@ -76,7 +76,7 @@ class Assets
 
         $path = ltrim($path, '/');
 
-        if (app()->environment('vagrant')) {
+        if (app()->environment('docker')) {
             return '/' . $path;
         }
 
