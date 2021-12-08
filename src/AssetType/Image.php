@@ -40,7 +40,7 @@ class Image
 
         $base_url = str_replace(['https://', 'http://'], '//', $base_url);
 
-        if (!starts_with($base_url, '//')) {
+        if (! starts_with($base_url, '//')) {
             return '//image.' . $base_url;
         }
 
@@ -50,6 +50,6 @@ class Image
     protected function isExternalUrl($image)
     {
         return Str::contains($image, ['http://', 'https://']) &&
-            !Str::contains($image, [ 'austin.test','sixmilliondollarsite.com', 'furthered.com', 'lawline.com' ]);
+            ! Str::contains($image, ['local.test', 'sixmilliondollarsite.com', 'furthered.com', 'lawline.com']);
     }
 }
