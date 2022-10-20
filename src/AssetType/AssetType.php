@@ -142,6 +142,10 @@ abstract class AssetType
 
     protected function getVersionedPath($path)
     {
+        if (! Str::startsWith($path, '/')) {
+            $path = '/' . $path;
+        }
+
         return Arr::get($this->revisions, $path, $path);
     }
 
