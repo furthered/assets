@@ -43,7 +43,7 @@ abstract class AssetType
 
     protected function loadRevisions()
     {
-        $revisions_path = public_path('build/rev-manifest.json');
+        $revisions_path = public_path('mix-manifest.json');
 
         if (file_exists($revisions_path)) {
             $this->revisions = json_decode(file_get_contents($revisions_path), true);
@@ -142,13 +142,11 @@ abstract class AssetType
 
     protected function getVersionedPath($path)
     {
-        $path = ltrim($path, '/');
-
-        if ($version = Arr::get($this->revisions, $path)) {
-            return ($this->isFullUrl($version)) ? $version : '/build/' . $version;
+        if (! Str::startsWith($path, '/')) {
+            $path = '/' . $path;
         }
 
-        return '/' . $path;
+        return Arr::get($this->revisions, $path, $path);
     }
 
     protected function isLib($path)
